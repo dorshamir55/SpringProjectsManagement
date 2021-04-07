@@ -1,6 +1,7 @@
 package com.example.SpringProjectsManagement.controller_tests;
 
 import com.example.SpringProjectsManagement.controller.ProjectController;
+import com.example.SpringProjectsManagement.exception.ResourceNotFoundException;
 import com.example.SpringProjectsManagement.model.Project;
 import com.example.SpringProjectsManagement.service.ProjectService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -97,6 +98,17 @@ public class ProjectControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("2"));
+    }
+
+    @Test
+    public void testExceptionProjectNotFoundInProjectController() throws Exception {
+        project1.setId(2);
+        when(projectService.getProjectById(any(long.class))).
+                thenThrow(ResourceNotFoundException.class);
+
+        mockMvc.perform(get("/projects/{id}", 2)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     @Test

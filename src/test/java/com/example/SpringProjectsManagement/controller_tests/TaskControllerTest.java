@@ -1,6 +1,7 @@
 package com.example.SpringProjectsManagement.controller_tests;
 
 import com.example.SpringProjectsManagement.controller.TaskController;
+import com.example.SpringProjectsManagement.exception.ResourceNotFoundException;
 import com.example.SpringProjectsManagement.model.Project;
 import com.example.SpringProjectsManagement.model.Task;
 import com.example.SpringProjectsManagement.service.TaskService;
@@ -106,6 +107,17 @@ public class TaskControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("3"));
+    }
+
+    @Test
+    public void testExceptionTaskNotFoundInTaskController() throws Exception {
+        task1.setId(3);
+        when(taskService.getTaskById(any(long.class))).
+                thenThrow(ResourceNotFoundException.class);
+
+        mockMvc.perform(get("/tasks/{id}", 3)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     @Test
