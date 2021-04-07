@@ -53,7 +53,7 @@ public class TaskControllerTest {
     }
 
     @Test
-    public void addTask() throws Exception {
+    public void testAddTaskInTaskController() throws Exception {
         when(taskService.addTask(any(Task.class))).thenReturn(task1);
 
         mockMvc.perform(post("/tasks")
@@ -66,7 +66,7 @@ public class TaskControllerTest {
     }
 
     @Test
-    public void updateTask() throws Exception {
+    public void testUpdateTaskInTaskController() throws Exception {
         Task task3 = new Task(3, "Create some animations", false);
         task3.setId(22);
         when(taskService.updateTask(any(Task.class))).thenReturn(task3);
@@ -83,7 +83,7 @@ public class TaskControllerTest {
     }
 
     @Test
-    public void getTasksByProjectId() throws Exception {
+    public void testGetTasksByProjectIdInTaskController() throws Exception {
         task1.setProjectId(5);
         task2.setProjectId(5);
         tasks.add(task1);
@@ -98,7 +98,7 @@ public class TaskControllerTest {
     }
 
     @Test
-    public void getTaskById() throws Exception {
+    public void testGetTaskByIdInTaskController() throws Exception {
         task1.setId(3);
         when(taskService.getTaskById(any(long.class))).thenReturn(task1);
 
@@ -109,7 +109,7 @@ public class TaskControllerTest {
     }
 
     @Test
-    public void deleteTask() throws Exception {
+    public void testDeleteTaskInTaskController() throws Exception {
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", true);
         when(taskService.deleteTask(any(long.class))).thenReturn(response);

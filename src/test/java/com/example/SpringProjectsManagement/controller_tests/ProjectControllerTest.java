@@ -62,7 +62,7 @@ public class ProjectControllerTest {
     }
 
     @Test
-    public void updateProject() throws Exception {
+    public void testUpdateProjectInProjectController() throws Exception {
         Project project3 = new Project("Checkers");
         project3.setId(2);
         when(projectService.updateProject(any(Project.class))).thenReturn(project3);
@@ -77,7 +77,7 @@ public class ProjectControllerTest {
     }
 
     @Test
-    public void getAllProjects() throws Exception {
+    public void testGetAllProjectsInProjectController() throws Exception {
         projects.add(project1);
         projects.add(project2);
         when(projectService.getAllProjects()).thenReturn(projects);
@@ -89,7 +89,7 @@ public class ProjectControllerTest {
     }
 
     @Test
-    public void getProjectById() throws Exception {
+    public void testGetProjectByIdInProjectController() throws Exception {
         project1.setId(2);
         when(projectService.getProjectById(any(long.class))).thenReturn(project1);
 
@@ -100,7 +100,7 @@ public class ProjectControllerTest {
     }
 
     @Test
-    public void deleteProject() throws Exception {
+    public void testDeleteProjectInProjectController() throws Exception {
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", true);
         when(projectService.deleteProject(any(long.class))).thenReturn(response);

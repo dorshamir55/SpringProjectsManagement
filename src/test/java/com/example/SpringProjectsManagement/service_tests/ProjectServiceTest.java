@@ -41,7 +41,7 @@ public class ProjectServiceTest {
     }
 
     @Test
-    public void addProject() {
+    public void testAddProjectInProjectService() {
         when(projectRepository.save(any(Project.class))).thenReturn(project1);
         
         Project created = projectService.addProject(project1);
@@ -50,7 +50,7 @@ public class ProjectServiceTest {
     }
 
     @Test
-    public void updateProject() {
+    public void testUpdateProjectInProjectService() {
         Project project3 = new Project("Checkers");
         project3.setId(2);
         project2.setId(2);
@@ -64,7 +64,7 @@ public class ProjectServiceTest {
     }
 
     @Test
-    public void getAllProjects() {
+    public void testGetAllProjectsInProjectService() {
         projects.add(project1);
         projects.add(project2);
         when(projectRepository.findAll()).thenReturn(projects);
@@ -75,7 +75,7 @@ public class ProjectServiceTest {
     }
 
     @Test
-    public void getProjectById() {
+    public void testGetProjectByIdInProjectService() {
         project1.setId(2);
         when(projectRepository.findById(any(long.class))).thenReturn(java.util.Optional.ofNullable(project1));
 
@@ -85,7 +85,7 @@ public class ProjectServiceTest {
     }
 
     @Test
-    public void deleteProject() {
+    public void testDeleteProjectInProjectService() {
         project1.setId(5);
         Map<String, Boolean> response;
 

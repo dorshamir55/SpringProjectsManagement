@@ -48,7 +48,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    public void addTask() {
+    public void testAddTaskInTaskService() {
         when(taskRepository.save(any(Task.class))).thenReturn(task1);
         
         Task created = taskService.addTask(task1);
@@ -59,7 +59,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    public void updateTask() {
+    public void testUpdateTaskInTaskService() {
         Task task3 = new Task(3, "Create some animations", false);
         task3.setId(2);
         task2.setId(2);
@@ -75,7 +75,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    public void getTasksByProjectId() {
+    public void testGetTasksByProjectIdInTaskService() {
         task1.setProjectId(8);
         task2.setProjectId(8);
         tasks.add(task1);
@@ -88,7 +88,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    public void getTaskById() {
+    public void testGetTaskByIdInTaskService() {
         task1.setId(7);
         when(taskRepository.findById(any(long.class))).thenReturn(java.util.Optional.ofNullable(task1));
 
@@ -98,7 +98,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    public void deleteProject() {
+    public void testDeleteTaskInTaskService() {
         task1.setId(6);
         Map<String, Boolean> response;
 
