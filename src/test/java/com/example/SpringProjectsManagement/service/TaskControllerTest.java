@@ -16,9 +16,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -32,6 +35,7 @@ public class TaskControllerTest {
 
     private Task task1;
     private Task task2;
+    private List<Task> tasks = new ArrayList<>();
 
     @MockBean
     private TaskService taskService;
@@ -43,19 +47,9 @@ public class TaskControllerTest {
 
     @Before
     public void setup() {
-        task1 = new Task(0, "Create some classes", false);
-        task2 = new Task(1, "Design components", false);
+        task1 = new Task(1, "Create some classes", false);
+        task2 = new Task(2, "Design components", false);
     }
-
-/*    @BeforeAll
-    public static void PopulateDataForTests(){
-
-    }
-
-    @AfterAll
-    public static void clearDataForTests(){
-        clearDataForAddProjectTest();
-    }*/
 
     @Test
     public void addTask() throws Exception {
@@ -65,7 +59,9 @@ public class TaskControllerTest {
         .content(objectMapper.writeValueAsString(task1))
         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content").value(task1.getContent()));
+                .andExpect(jsonPath("$.content").value("Create some classes"))
+                .andExpect(jsonPath("$.projectId").value("1"))
+                .andExpect(jsonPath("$.checked").value(false));
     }
 
     @Test
@@ -74,14 +70,30 @@ public class TaskControllerTest {
         task3.setId(22);
         when(taskService.updateTask(any(Task.class))).thenReturn(task3);
 
-        mockMvc.perform(put("/task/{id}", 22)
+        mockMvc.perform(put("/tasks/{id}", 22)
                 .content(objectMapper.writeValueAsString(task3))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Create some animations"))
-                .andExpect(jsonPath("$.id").value("22"))
-                .andExpect(jsonPath("$.checked").value(false));
+                .andExpect(jsonPath("$.content").value("Create some animations"))
+                .andExpect(jsonPath("$.checked").value(false))
+                .andExpect(jsonPath("$.projectId").value("3"))
+                .andExpect(jsonPath("$.id").value("22"));
+    }
+
+    @Test
+    public void getTasksByProjectId() throws Exception {
+        task1.setProjectId(5);
+        task2.setProjectId(5);
+        tasks.add(task1);
+        tasks.add(task2);
+        when(taskService.getTasksByProjectId(5)).thenReturn(tasks);
+
+        mockMvc.perform(get("/projects/{id}/tasks", "5")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].projectId").value("5"));
     }
 
     @Test
@@ -92,16 +104,15 @@ public class TaskControllerTest {
         mockMvc.perform(get("/tasks/{id}", 3)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(3));
+                .andExpect(jsonPath("$.id").value("3"));
     }
 
     @Test
     public void deleteTask() throws Exception {
-        task1.setId(4);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", true);
         when(taskService.deleteTask(any(long.class))).thenReturn(response);
-        mockMvc.perform(delete("/tasks/{id}", 4)
+        mockMvc.perform(delete("/tasks/{id}", any(long.class))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.deleted").value(true));

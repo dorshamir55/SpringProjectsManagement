@@ -17,7 +17,7 @@ public class TaskController {
     @Autowired
     TaskService service;
 
-    @GetMapping("/tasksOfProject/{projectId}")
+    @GetMapping("/projects/{projectId}/tasks")
     public ResponseEntity<List<Task>> getTasksByProjectId(@PathVariable long projectId) {
         return ResponseEntity.ok().body(service.getTasksByProjectId(projectId));
     }
@@ -40,9 +40,6 @@ public class TaskController {
 
     @DeleteMapping("/tasks/{taskId}")
     public ResponseEntity<Map<String, Boolean>> deleteTask(@PathVariable long taskId) {
-        service.deleteTask(taskId);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", true);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok().body(service.deleteTask(taskId));
     }
 }

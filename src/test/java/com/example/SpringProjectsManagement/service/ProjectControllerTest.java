@@ -58,7 +58,7 @@ public class ProjectControllerTest {
         .content(objectMapper.writeValueAsString(project1))
         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value(project1.getName()));
+                .andExpect(jsonPath("$.name").value("ZaramT"));
     }
 
     @Test
@@ -96,16 +96,15 @@ public class ProjectControllerTest {
         mockMvc.perform(get("/projects/{id}", 2)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(2));
+                .andExpect(jsonPath("$.id").value("2"));
     }
 
     @Test
     public void deleteProject() throws Exception {
-        project1.setId(4);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", true);
         when(projectService.deleteProject(any(long.class))).thenReturn(response);
-        mockMvc.perform(delete("/projects/{id}", 4)
+        mockMvc.perform(delete("/projects/{id}", any(long.class))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.deleted").value(true));
