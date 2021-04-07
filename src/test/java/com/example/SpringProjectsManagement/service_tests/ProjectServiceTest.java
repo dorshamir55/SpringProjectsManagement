@@ -4,9 +4,7 @@ import com.example.SpringProjectsManagement.model.Project;
 import com.example.SpringProjectsManagement.repository.IProjectRepository;
 import com.example.SpringProjectsManagement.service.ProjectService;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -29,9 +27,6 @@ public class ProjectServiceTest {
     private Project project1;
     private Project project2;
     private List<Project> projects = new ArrayList<>();
-
-//    @Rule
-//    public final ExpectedException expectedException = ExpectedException.none();
 
     @Mock
     private IProjectRepository projectRepository;
@@ -88,15 +83,6 @@ public class ProjectServiceTest {
 
         assertThat(projectFound).isSameAs(project1);
     }
-
-//    @Test(expected = ResourceNotFoundException.class)
-//    public void getProjectByIdAndException() throws Throwable {
-//        project1.setId(2);
-//        when(projectRepository.findById(any(long.class))).thenReturn(java.util.Optional.ofNullable(project1));
-//
-//        projectService.getProjectById(project1.getId());
-//        assertFalse(throw new ResourceNotFoundException(project1.getId());
-//    }
 
     @Test
     public void deleteProject() {

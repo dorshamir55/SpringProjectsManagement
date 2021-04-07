@@ -90,7 +90,7 @@ public class TaskControllerTest {
         tasks.add(task2);
         when(taskService.getTasksByProjectId(5)).thenReturn(tasks);
 
-        mockMvc.perform(get("/projects/{id}/tasks", "5")
+        mockMvc.perform(get("/projects/{id}/tasks", 5)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))

@@ -1,6 +1,5 @@
 package com.example.SpringProjectsManagement.service_tests;
 
-import com.example.SpringProjectsManagement.model.Project;
 import com.example.SpringProjectsManagement.model.Task;
 import com.example.SpringProjectsManagement.repository.IProjectRepository;
 import com.example.SpringProjectsManagement.repository.ITaskRepository;
@@ -75,16 +74,18 @@ public class TaskServiceTest {
         assertThat(updated.getId()).isSameAs(task2.getId());
     }
 
-//    @Test
-//    public void getAllProjects() {
-//        projects.add(project1);
-//        projects.add(project2);
-//        when(projectRepository.findAll()).thenReturn(projects);
-//
-//        List<Project> projectsFound = projectService.getAllProjects();
-//
-//        assertThat(projectsFound).isSameAs(projects);
-//    }
+    @Test
+    public void getTasksByProjectId() {
+        task1.setProjectId(8);
+        task2.setProjectId(8);
+        tasks.add(task1);
+        tasks.add(task2);
+        when(taskRepository.findByProjectId(8L)).thenReturn(tasks);
+
+        List<Task> tasksFound = taskService.getTasksByProjectId(8);
+
+        assertThat(tasksFound).isSameAs(tasks);
+    }
 
     @Test
     public void getTaskById() {
@@ -95,15 +96,6 @@ public class TaskServiceTest {
 
         assertThat(taskFound).isSameAs(task1);
     }
-
-//    @Test(expected = ResourceNotFoundException.class)
-//    public void getProjectByIdAndException() throws Throwable {
-//        project1.setId(2);
-//        when(projectRepository.findById(any(long.class))).thenReturn(java.util.Optional.ofNullable(project1));
-//
-//        projectService.getProjectById(project1.getId());
-//        assertFalse(throw new ResourceNotFoundException(project1.getId());
-//    }
 
     @Test
     public void deleteProject() {
