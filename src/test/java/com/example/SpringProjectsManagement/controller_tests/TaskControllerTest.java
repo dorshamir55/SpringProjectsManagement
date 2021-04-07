@@ -1,4 +1,4 @@
-package com.example.SpringProjectsManagement;
+package com.example.SpringProjectsManagement.controller_tests;
 
 import com.example.SpringProjectsManagement.controller.TaskController;
 import com.example.SpringProjectsManagement.model.Project;

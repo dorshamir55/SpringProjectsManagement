@@ -40,9 +40,6 @@ public class ProjectController {
 
     @DeleteMapping("/projects/{projectId}")
     public ResponseEntity<Map<String, Boolean>> deleteProject(@PathVariable long projectId) {
-        service.deleteProject(projectId);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", true);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(service.deleteProject(projectId));
     }
 }
