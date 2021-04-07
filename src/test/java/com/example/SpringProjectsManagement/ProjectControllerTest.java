@@ -1,7 +1,8 @@
-package com.example.SpringProjectsManagement.service;
+package com.example.SpringProjectsManagement;
 
 import com.example.SpringProjectsManagement.controller.ProjectController;
 import com.example.SpringProjectsManagement.model.Project;
+import com.example.SpringProjectsManagement.service.ProjectService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;

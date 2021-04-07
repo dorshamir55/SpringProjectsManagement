@@ -41,13 +41,6 @@ public class TaskService implements ITaskService {
 
     @Override
     public List<Task> getTasksByProjectId(long projectId) {
-//        List<Task> tasksInProject = repository.findAll();
-//        for(Task task : tasksInProject) {
-//            if(task.getProjectId()!=projectId)
-//                tasksInProject.remove(task);
-//        }
-//
-//        return tasksInProject;
         return repository.findByProjectId(projectId);
     }
 
